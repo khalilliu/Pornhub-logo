@@ -65,20 +65,20 @@ const NavContainer = styled.div`
 `;
 
 const Nav = () => {
-  const store = React.useContext(textStore);
+  // const store = React.useContext(textStore);
   return (
     <NavContainer>
       <div className="menu">
         <Link to="about">About</Link>
-        <Link to="/" onClick={e => store.changeDirection("row")} className="pb">
+        <Link to="/" className="pb">
           <span className="prefix">Porn</span>
           <span className="postfix">hub</span>
         </Link>
 
         <Link
-          to="/"
+          to="/vertical-ph"
           className="vph"
-          onClick={e => store.changeDirection("column")}
+          // onClick={e => store.changeDirection("column")}
         >
           <p className="prefix">Porn</p>
           <p className="postfix">hub</p>

@@ -1,6 +1,7 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import styled from "styled-components";
+import { useStore } from "../store";
 import Input from "./Input";
 
 const PornhubContainer = styled.div`
@@ -16,7 +17,8 @@ const PornhubContainer = styled.div`
   }
 `;
 
-const PornhubController = ({ store }) => {
+const PornhubController = () => {
+  const store = useStore();
   return (
     <PornhubContainer>
       <div className="pornhub-controller-color">

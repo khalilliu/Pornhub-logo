@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { observer } from "mobx-react-lite";
-import textStore from "../store";
+import { useStore } from "../store";
 
 const EditBox = styled.div`
   border: 4px solid #333;
@@ -23,11 +23,15 @@ const EditArea = styled.div`
 `;
 
 const PrefixSpan = styled.div`
+  display: inline-block;
+  outline:none;  
+	border:0px;
+  text-align:center;
   color: ${props => props.color};
   background-color: ${props =>
     props.reverseHighlight ? props.postfixBgColor : "transparent"};
   border-radius: ${props => (props.reverseHighlight ? "7px" : "none")};
-  padding: ${props => (props.reverseHighlight ? "5px 10px" : "5px")};
+  padding: ${props => (props.reverseHighlight ? "5px 10px" : "5px")};(
 `;
 
 // const PostfixSpan = styled.div`
@@ -38,46 +42,55 @@ const PrefixSpan = styled.div`
 //   padding: ${props => (!props.reverseHighlight ? "5px 10px" : "5px")};
 // `;
 
-const PorhubView = ({ data, handleChange, ...props }) => {
+const PorhubView = ({ ...props }) => {
   const prefixEl = React.useRef(null);
   const postfixEl = React.useRef(null);
-  const store = React.useContext(textStore);
+  const store = useStore();
+  const { data, changeText } = store;
   return (
     <EditBox>
       <EditArea
         ref={props.logoRef}
-        direction={store.data.direction}
+        direction={props.viewDirection}
         fontSize={data.fontSize}
         transparentBg={data.transparentBg ? "transparent" : "#000000"}
       >
         <PrefixSpan
           ref={prefixEl}
-          reverseHighlight={data.reverseHighlight}
           contentEditable
+          reverseHighlight={data.reverseHighlight}
           spellCheck="false"
           suppressContentEditableWarning={true}
           postfixBgColor={data.postfixBgColor}
           color={data.reverseHighlight ? data.suffixColor : data.prefixColor}
           onInput={e =>
-            prefixEl.current.innerHTML === store.data.prefixText &&
-            store.changeText(e.target.childNodes[0].nodeValue, "prefixText")
+            // prefixEl.current.innerHTML === data.prefixText &&
+            setTimeout(
+              () => changeText(e.target.childNodes[0].nodeValue, "prefixText"),
+              0
+            )
           }
-          dangerouslySetInnerHTML={{ __html: store.data.prefixText }}
-        />
+        >
+          {data.prefixText}
+        </PrefixSpan>
         <PrefixSpan
+          contentEditable
           ref={postfixEl}
           reverseHighlight={!data.reverseHighlight}
-          contentEditable
           spellCheck="false"
           suppressContentEditableWarning={true}
           color={!data.reverseHighlight ? data.suffixColor : data.prefixColor}
           postfixBgColor={data.postfixBgColor}
           onInput={e =>
-            postfixEl.current.innerHTML === store.data.suffixText &&
-            store.changeText(e.target.childNodes[0].nodeValue, "suffixText")
+            // postfixEl.current.innerHTML === data.suffixText &&
+            setTimeout(
+              () => changeText(e.target.childNodes[0].nodeValue, "suffixText"),
+              0
+            )
           }
-          dangerouslySetInnerHTML={{ __html: store.data.suffixText }}
-        />
+        >
+          {data.suffixText}
+        </PrefixSpan>
       </EditArea>
     </EditBox>
   );

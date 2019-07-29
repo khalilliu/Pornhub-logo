@@ -7,7 +7,6 @@ const Input = ({ type, dataType, value, onChange, ...props }) => {
         <input
           type={type}
           onChange={e => {
-            console.log(e.target.checked);
             onChange(e.target.checked, dataType);
           }}
           checked={value}
@@ -19,7 +18,6 @@ const Input = ({ type, dataType, value, onChange, ...props }) => {
         <input
           type={type}
           onChange={e => {
-            console.log(e.target);
             onChange(e.target.value, dataType);
           }}
           value={value}

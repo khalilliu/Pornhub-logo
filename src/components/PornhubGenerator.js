@@ -1,13 +1,11 @@
 import React from "react";
 import domToImage from "dom-to-image";
-import FileSaver from "file-saver";
-import { useLocalStore, observer } from "mobx-react-lite";
 import styled from "styled-components";
 
 import PorhubView from "./PornhubView";
 import PorhubController from "./PornhubController";
 import ShareButton from "./ShareButton";
-import textStore from "../store";
+
 // styled component
 const PornhubContainer = styled.div`
   display: flex;
@@ -19,24 +17,24 @@ const PornhubContainer = styled.div`
 
 const PornhubGenerator = props => {
   const logoRef = React.useRef(null);
-  const store = useLocalStore(() => ({
-    data: {
-      prefixColor: "#ffffff",
-      suffixColor: "#000000",
-      postfixBgColor: "#ff9900",
-      transparentBg: false,
-      reverseHighlight: false,
-      fontSize: 55
-    },
-    handleStoreChange(value, type) {
-      store.data[type] = value;
-    }
-  }));
+  // const store = useLocalStore(() => ({
+  //   data: {
+  //     prefixColor: "#ffffff",
+  //     suffixColor: "#000000",
+  //     postfixBgColor: "#ff9900",
+  //     transparentBg: false,
+  //     reverseHighlight: false,
+  //     fontSize: 55
+  //   },
+  //   handleStoreChange(value, type) {
+  //     console.log(value, type);
+  //     store.data[type] = value;
+  //   }
+  // }));
 
   const download = () => {
     const node = logoRef && logoRef.current;
     domToImage.toPng(node).then(res => {
-      console.log(res);
       downloadImage(res, `logo`);
     });
   };
@@ -50,13 +48,8 @@ const PornhubGenerator = props => {
 
   return (
     <PornhubContainer>
-      <PorhubView
-        logoRef={logoRef}
-        data={store.data}
-        viewDirection={props.viewDirection}
-        handleChange={store.handleStoreChange}
-      />
-      <PorhubController store={store} />
+      <PorhubView logoRef={logoRef} viewDirection={props.viewDirection} />
+      <PorhubController />
       <ShareButton handleDownload={download} handleShare={share} />
     </PornhubContainer>
   );
@@ -82,4 +75,4 @@ function downloadImage(data, name) {
   image.src = data;
 }
 
-export default observer(PornhubGenerator);
+export default PornhubGenerator;

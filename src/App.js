@@ -25,7 +25,7 @@ function App() {
       <Nav />
       <Switch>
         <Route exact path="/" component={() => <Home />} />
-        {/* <Route exact path="/vertical-ph" component={() => <VerticalPh />} /> */}
+        <Route exact path="/vertical-ph" component={() => <VerticalPh />} />
         <Route exact path="/about" component={About} />
       </Switch>
       <Slogan />
