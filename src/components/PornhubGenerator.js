@@ -1,10 +1,11 @@
 import React from "react";
 import domToImage from "dom-to-image";
 import styled from "styled-components";
-
+import { useStore } from "../store";
 import PorhubView from "./PornhubView";
 import PorhubController from "./PornhubController";
 import ShareButton from "./ShareButton";
+import { observer } from "mobx-react-lite";
 
 // styled component
 const PornhubContainer = styled.div`
@@ -17,6 +18,9 @@ const PornhubContainer = styled.div`
 
 const PornhubGenerator = props => {
   const logoRef = React.useRef(null);
+  const { data, getText, changeText, handleStoreChange } = useStore();
+  const text = getText();
+  console.log(data, "from this");
   // const store = useLocalStore(() => ({
   //   data: {
   //     prefixColor: "#ffffff",
@@ -48,8 +52,18 @@ const PornhubGenerator = props => {
 
   return (
     <PornhubContainer>
-      <PorhubView logoRef={logoRef} viewDirection={props.viewDirection} />
-      <PorhubController />
+      <PorhubView
+        logoRef={logoRef}
+        viewDirection={props.viewDirection}
+        data={data}
+        text={text}
+        changeText={changeText}
+      />
+      <PorhubController
+        data={data}
+        text={text}
+        handleStoreChange={handleStoreChange}
+      />
       <ShareButton handleDownload={download} handleShare={share} />
     </PornhubContainer>
   );
@@ -75,4 +89,4 @@ function downloadImage(data, name) {
   image.src = data;
 }
 
-export default PornhubGenerator;
+export default observer(PornhubGenerator);

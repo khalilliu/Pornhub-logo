@@ -1,14 +1,16 @@
 import { createContext, useContext } from "react";
-import { decorate, observable, action } from "mobx";
+import { decorate, observable, action, toJS } from "mobx";
 
 // export const StoreContext = createContext();
 
 const DATAKEY = "store-data";
 
 export class TextStore {
+  text = {
+    prefixText: "Edit",
+    suffixText: "me"
+  };
   data = {
-    prefixText: "Pron",
-    suffixText: "me",
     // not storage
     prefixColor: "#ffffff",
     suffixColor: "#000000",
@@ -19,38 +21,40 @@ export class TextStore {
   };
 
   setDataFromSessionStorage = data => {
-    const dataStr = JSON.stringify(data);
+    // console.log(data, "data");
+    const dataStr = JSON.stringify(data, null, 2);
     localStorage && localStorage.setItem(DATAKEY, dataStr);
   };
 
-  getDataFromSessionStorage = () => {
-    let data = localStorage.getItem(DATAKEY);
-    if (data) {
-      data = JSON.parse(data);
-      this.data = { ...this.data, ...data };
-    } else {
-      data = { ...this.data, prefixText: "Pron", suffixText: "me" };
+  getText = () => {
+    let text = localStorage.getItem(DATAKEY);
+    if (text) {
+      text = JSON.parse(text);
+      Object.keys(text).map(type => (this.text[type] = text[type]));
+      console.log(toJS(this.text), "only");
+      return text;
     }
-    return data;
+    return toJS(this.text);
   };
 
   changeText = (value, type) => {
-    this.data[type] = value;
+    this.text[type] = value;
+    console.log(toJS(this.text), "1");
     this.setDataFromSessionStorage({
-      prefixText: this.data.prefixText,
-      suffixText: this.data.prefixText
+      prefixText: this.text.prefixText,
+      suffixText: this.text.suffixText
     });
   };
 
   handleStoreChange = (value, type) => {
-    console.log("run this");
     this.data[type] = value;
   };
 }
 
 decorate(TextStore, {
+  text: observable,
   data: observable,
-  getDataFromSessionStorage: action,
+  getText: action,
   setDataFromSessionStorage: action,
   handleStoreChange: action,
   changeText: action

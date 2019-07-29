@@ -1,7 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import styled from "styled-components";
-import { useStore } from "../store";
 import Input from "./Input";
 
 const PornhubContainer = styled.div`
@@ -17,8 +16,7 @@ const PornhubContainer = styled.div`
   }
 `;
 
-const PornhubController = () => {
-  const store = useStore();
+const PornhubController = ({ data, handleStoreChange }) => {
   return (
     <PornhubContainer>
       <div className="pornhub-controller-color">
@@ -27,8 +25,8 @@ const PornhubController = () => {
           <Input
             type="color"
             dataType="prefixColor"
-            value={store.data.prefixColor}
-            onChange={store.handleStoreChange}
+            value={data.prefixColor}
+            onChange={handleStoreChange}
           />
         </div>
         <div>
@@ -36,8 +34,8 @@ const PornhubController = () => {
           <Input
             type="color"
             dataType="suffixColor"
-            value={store.data.suffixColor}
-            onChange={store.handleStoreChange}
+            value={data.suffixColor}
+            onChange={handleStoreChange}
           />
         </div>
         <div>
@@ -45,8 +43,8 @@ const PornhubController = () => {
           <Input
             type="color"
             dataType="postfixBgColor"
-            value={store.data.postfixBgColor}
-            onChange={store.handleStoreChange}
+            value={data.postfixBgColor}
+            onChange={handleStoreChange}
           />
         </div>
         <div>
@@ -54,8 +52,8 @@ const PornhubController = () => {
           <Input
             type="checkbox"
             dataType="transparentBg"
-            value={store.data.transparentBg}
-            onChange={store.handleStoreChange}
+            value={data.transparentBg}
+            onChange={handleStoreChange}
           />
         </div>
       </div>
@@ -65,22 +63,22 @@ const PornhubController = () => {
           <Input
             type="range"
             dataType="fontSize"
-            onChange={store.handleStoreChange}
-            value={store.data.fontSize}
+            onChange={handleStoreChange}
+            value={data.fontSize}
             min="30"
-            max="180"
+            max="100"
             name="fontsize"
           />
           &nbsp;
-          <span style={{ color: "#f90" }}>{store.data.fontSize}px</span>
+          <span style={{ color: "#f90" }}>{data.fontSize}px</span>
         </div>
         <div>
           Reverse Highlight: &nbsp;{" "}
           <Input
             type="checkbox"
             dataType="reverseHighlight"
-            value={store.data.reverseHighlight}
-            onChange={store.handleStoreChange}
+            value={data.reverseHighlight}
+            onChange={handleStoreChange}
           />
         </div>
       </div>

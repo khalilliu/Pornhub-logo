@@ -42,11 +42,10 @@ const PrefixSpan = styled.div`
 //   padding: ${props => (!props.reverseHighlight ? "5px 10px" : "5px")};
 // `;
 
-const PorhubView = ({ ...props }) => {
+const PorhubView = ({ data, text, changeText, ...props }) => {
   const prefixEl = React.useRef(null);
   const postfixEl = React.useRef(null);
-  const store = useStore();
-  const { data, changeText } = store;
+
   return (
     <EditBox>
       <EditArea
@@ -65,13 +64,17 @@ const PorhubView = ({ ...props }) => {
           color={data.reverseHighlight ? data.suffixColor : data.prefixColor}
           onInput={e =>
             // prefixEl.current.innerHTML === data.prefixText &&
-            setTimeout(
-              () => changeText(e.target.childNodes[0].nodeValue, "prefixText"),
-              0
-            )
+            {
+              e.persist();
+
+              setTimeout(
+                () => changeText(e.target.textContent, "prefixText"),
+                0
+              );
+            }
           }
         >
-          {data.prefixText}
+          {text.prefixText}
         </PrefixSpan>
         <PrefixSpan
           contentEditable
@@ -83,13 +86,18 @@ const PorhubView = ({ ...props }) => {
           postfixBgColor={data.postfixBgColor}
           onInput={e =>
             // postfixEl.current.innerHTML === data.suffixText &&
-            setTimeout(
-              () => changeText(e.target.childNodes[0].nodeValue, "suffixText"),
-              0
-            )
+            {
+              // let value = e.target.value;
+              e.persist();
+
+              setTimeout(
+                () => changeText(e.target.textContent, "suffixText"),
+                0
+              );
+            }
           }
         >
-          {data.suffixText}
+          {text.suffixText}
         </PrefixSpan>
       </EditArea>
     </EditBox>
