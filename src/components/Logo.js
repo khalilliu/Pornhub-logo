@@ -22,8 +22,8 @@ const LogoContainer = styled.div`
 const Logo = () => (
   <LogoContainer>
     <h1>
-      <span className="prefix">Logoly</span>
-      <span className="postfix">Pro</span>
+      <span className="prefix">Logo</span>
+      <span className="postfix">hub</span>
     </h1>
   </LogoContainer>
 );
