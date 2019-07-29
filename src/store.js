@@ -18,3 +18,6 @@ decorate(TextStore, {
   data: observable,
   changeText: action
 });
+
+
+export default createContext(new TextStore())
